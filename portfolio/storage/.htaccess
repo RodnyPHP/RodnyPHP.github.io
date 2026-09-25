@@ -1,0 +1,4 @@
+# Keep analytics data private when using Apache.
+<FilesMatch "\.(json|log)$">
+  Require all denied
+</FilesMatch>
