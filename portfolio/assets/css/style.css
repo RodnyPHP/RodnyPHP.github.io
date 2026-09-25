@@ -1,0 +1,1 @@
+.container{width:min(900px,calc(100% - 2rem));margin:2rem auto}.site-header,.site-footer{padding:1rem max(1rem,calc((100% - 900px)/2));background:#151d35;color:#fff}.site-header a{color:#fff;text-decoration:none;font-weight:700}.hero{padding:4rem 0}a{color:#6c63ff}form{display:grid;gap:1rem;max-width:25rem}input,button{padding:.7rem}

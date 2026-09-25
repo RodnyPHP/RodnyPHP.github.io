@@ -1,0 +1,1 @@
+<footer class="site-footer"><p>&copy; 2026 RodnyPHP</p></footer></body></html>

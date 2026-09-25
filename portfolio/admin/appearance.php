@@ -1,0 +1,1 @@
+<?php require_once __DIR__ . '/../includes/auth.php'; require_once __DIR__ . '/../includes/header.php'; ?><main class="container"><h1>Appearance</h1><p>Theme and layout settings placeholder.</p></main><?php require_once __DIR__ . '/../includes/footer.php'; ?>
