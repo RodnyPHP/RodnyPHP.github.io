@@ -84,8 +84,7 @@
     .card h3 { margin-top: 0; }
     .card p { color: var(--muted); }
     .timeline {
-      position: relative; display: grid; gap: 1rem; margin-top: 1rem;
-      padding-left: 1rem;
+      position: relative; display: grid; gap: 1rem; margin-top: 1rem; padding-left: 1rem;
     }
     .timeline::before {
       content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--line);
@@ -225,15 +224,37 @@
 
   <footer class="container site-footer">
     <div class="analytics">
-      <div class="metric"><strong>24</strong><span>Projects</span></div>
-      <div class="metric"><strong>8K</strong><span>Visits</span></div>
-      <div class="metric"><strong>99.9%</strong><span>Uptime</span></div>
-      <div class="metric"><strong>4+</strong><span>Years</span></div>
+      <div class="metric"><strong id="metric-projects">24</strong><span>Projects</span></div>
+      <div class="metric"><strong id="metric-visits">0</strong><span>Visits</span></div>
+      <div class="metric"><strong id="metric-uptime">99.9%</strong><span>Uptime</span></div>
+      <div class="metric"><strong id="metric-years">4+</strong><span>Years</span></div>
     </div>
     <div class="footer-meta">
       <div>© 2026 RodnyB</div>
       <div>Analytics · Developer portfolio</div>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      const storageKey = 'rodnyb-site-stats';
+      const now = Date.now();
+      const data = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      const current = {
+        visits: Number(data.visits) || 0,
+        lastSeen: Number(data.lastSeen) || 0
+      };
+
+      const shouldCountVisit = !current.lastSeen || (now - current.lastSeen) > 60 * 60 * 1000;
+      if (shouldCountVisit) {
+        current.visits += 1;
+        current.lastSeen = now;
+        localStorage.setItem(storageKey, JSON.stringify(current));
+      }
+
+      const visitsEl = document.getElementById('metric-visits');
+      if (visitsEl) visitsEl.textContent = String(current.visits);
+    })();
+  </script>
 </body>
 </html>
