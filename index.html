@@ -16,6 +16,7 @@
       --muted: #aeb8d4;
       --accent: #7c5cff;
       --green: #29d3c2;
+      --warning: #ffc857;
     }
     * { box-sizing: border-box; }
     body {
@@ -82,13 +83,48 @@
     }
     .card h3 { margin-top: 0; }
     .card p { color: var(--muted); }
+    .timeline {
+      position: relative; display: grid; gap: 1rem; margin-top: 1rem;
+      padding-left: 1rem;
+    }
+    .timeline::before {
+      content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--line);
+    }
+    .timeline-item {
+      position: relative; padding-left: 1.6rem;
+    }
+    .timeline-item::before {
+      content: ""; position: absolute; left: 0; top: .4rem; width: 12px; height: 12px; border-radius: 50%; background: var(--green); border: 2px solid var(--bg);
+    }
+    .timeline-item small {
+      color: var(--green); font-weight: 700; letter-spacing: .05em;
+    }
+    .analytics {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem;
+    }
+    .analytics .metric {
+      background: rgba(21, 29, 53, 0.7); border: 1px solid var(--line);
+      border-radius: 1rem; padding: 1rem; text-align: center;
+    }
+    .analytics strong {
+      display: block; font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--warning);
+    }
+    .analytics span {
+      color: var(--muted); font-size: .9rem; text-transform: uppercase; letter-spacing: .05em;
+    }
     .site-footer {
       padding: 2rem 0 3rem; color: var(--muted); border-top: 1px solid var(--line); margin-top: 3rem;
+    }
+    .footer-meta {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-top: 1rem;
     }
     @media (max-width: 760px) {
       .hero { grid-template-columns: 1fr; }
       .grid { grid-template-columns: 1fr; }
       .site-header { flex-direction: column; align-items: flex-start; }
+      .analytics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -98,6 +134,7 @@
     <nav class="nav" aria-label="Main navigation">
       <a href="#about">About</a>
       <a href="#links">Links</a>
+      <a href="#timeline">Timeline</a>
       <a href="portfolio/calculator.html">Programmer Calculator</a>
     </nav>
   </header>
@@ -145,6 +182,28 @@
       </div>
     </section>
 
+    <section id="timeline">
+      <h2>Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <small>2022</small>
+          <p>Started learning front-end development and responsive UI patterns.</p>
+        </div>
+        <div class="timeline-item">
+          <small>2023</small>
+          <p>Expanded into PHP, backend logic, and developer-focused web tools.</p>
+        </div>
+        <div class="timeline-item">
+          <small>2024</small>
+          <p>Built portfolio projects and reusable utility pages for day-to-day development.</p>
+        </div>
+        <div class="timeline-item">
+          <small>2025</small>
+          <p>Focused on polished interfaces, automation, and practical coding experiments.</p>
+        </div>
+      </div>
+    </section>
+
     <section id="links">
       <h2>Find me online</h2>
       <div class="grid">
@@ -165,7 +224,16 @@
   </main>
 
   <footer class="container site-footer">
-    © 2026 RodnyPHP · Static portfolio and developer tools
+    <div class="analytics">
+      <div class="metric"><strong>24</strong><span>Projects</span></div>
+      <div class="metric"><strong>8K</strong><span>Visits</span></div>
+      <div class="metric"><strong>99.9%</strong><span>Uptime</span></div>
+      <div class="metric"><strong>4+</strong><span>Years</span></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 RodnyB</div>
+      <div>Analytics · Developer portfolio</div>
+    </div>
   </footer>
 </body>
 </html>
