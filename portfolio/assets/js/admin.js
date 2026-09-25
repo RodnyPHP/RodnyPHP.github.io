@@ -1,0 +1,3 @@
+const data=JSON.parse(localStorage.getItem('portfolioData')||'null')||{profile:{name:'RodnyPHP',bio:'Web developer and PHP enthusiast'},links:[{title:'GitHub',url:'https://github.com/RodnyPHP'}]};
+const name=document.querySelector('#name'), bio=document.querySelector('#bio'), status=document.querySelector('#status'); name.value=data.profile.name; bio.value=data.profile.bio;
+document.querySelector('#profile-form').addEventListener('submit',event=>{event.preventDefault();data.profile={name:name.value,bio:bio.value};localStorage.setItem('portfolioData',JSON.stringify(data));status.textContent='Saved in this browser only.';});
