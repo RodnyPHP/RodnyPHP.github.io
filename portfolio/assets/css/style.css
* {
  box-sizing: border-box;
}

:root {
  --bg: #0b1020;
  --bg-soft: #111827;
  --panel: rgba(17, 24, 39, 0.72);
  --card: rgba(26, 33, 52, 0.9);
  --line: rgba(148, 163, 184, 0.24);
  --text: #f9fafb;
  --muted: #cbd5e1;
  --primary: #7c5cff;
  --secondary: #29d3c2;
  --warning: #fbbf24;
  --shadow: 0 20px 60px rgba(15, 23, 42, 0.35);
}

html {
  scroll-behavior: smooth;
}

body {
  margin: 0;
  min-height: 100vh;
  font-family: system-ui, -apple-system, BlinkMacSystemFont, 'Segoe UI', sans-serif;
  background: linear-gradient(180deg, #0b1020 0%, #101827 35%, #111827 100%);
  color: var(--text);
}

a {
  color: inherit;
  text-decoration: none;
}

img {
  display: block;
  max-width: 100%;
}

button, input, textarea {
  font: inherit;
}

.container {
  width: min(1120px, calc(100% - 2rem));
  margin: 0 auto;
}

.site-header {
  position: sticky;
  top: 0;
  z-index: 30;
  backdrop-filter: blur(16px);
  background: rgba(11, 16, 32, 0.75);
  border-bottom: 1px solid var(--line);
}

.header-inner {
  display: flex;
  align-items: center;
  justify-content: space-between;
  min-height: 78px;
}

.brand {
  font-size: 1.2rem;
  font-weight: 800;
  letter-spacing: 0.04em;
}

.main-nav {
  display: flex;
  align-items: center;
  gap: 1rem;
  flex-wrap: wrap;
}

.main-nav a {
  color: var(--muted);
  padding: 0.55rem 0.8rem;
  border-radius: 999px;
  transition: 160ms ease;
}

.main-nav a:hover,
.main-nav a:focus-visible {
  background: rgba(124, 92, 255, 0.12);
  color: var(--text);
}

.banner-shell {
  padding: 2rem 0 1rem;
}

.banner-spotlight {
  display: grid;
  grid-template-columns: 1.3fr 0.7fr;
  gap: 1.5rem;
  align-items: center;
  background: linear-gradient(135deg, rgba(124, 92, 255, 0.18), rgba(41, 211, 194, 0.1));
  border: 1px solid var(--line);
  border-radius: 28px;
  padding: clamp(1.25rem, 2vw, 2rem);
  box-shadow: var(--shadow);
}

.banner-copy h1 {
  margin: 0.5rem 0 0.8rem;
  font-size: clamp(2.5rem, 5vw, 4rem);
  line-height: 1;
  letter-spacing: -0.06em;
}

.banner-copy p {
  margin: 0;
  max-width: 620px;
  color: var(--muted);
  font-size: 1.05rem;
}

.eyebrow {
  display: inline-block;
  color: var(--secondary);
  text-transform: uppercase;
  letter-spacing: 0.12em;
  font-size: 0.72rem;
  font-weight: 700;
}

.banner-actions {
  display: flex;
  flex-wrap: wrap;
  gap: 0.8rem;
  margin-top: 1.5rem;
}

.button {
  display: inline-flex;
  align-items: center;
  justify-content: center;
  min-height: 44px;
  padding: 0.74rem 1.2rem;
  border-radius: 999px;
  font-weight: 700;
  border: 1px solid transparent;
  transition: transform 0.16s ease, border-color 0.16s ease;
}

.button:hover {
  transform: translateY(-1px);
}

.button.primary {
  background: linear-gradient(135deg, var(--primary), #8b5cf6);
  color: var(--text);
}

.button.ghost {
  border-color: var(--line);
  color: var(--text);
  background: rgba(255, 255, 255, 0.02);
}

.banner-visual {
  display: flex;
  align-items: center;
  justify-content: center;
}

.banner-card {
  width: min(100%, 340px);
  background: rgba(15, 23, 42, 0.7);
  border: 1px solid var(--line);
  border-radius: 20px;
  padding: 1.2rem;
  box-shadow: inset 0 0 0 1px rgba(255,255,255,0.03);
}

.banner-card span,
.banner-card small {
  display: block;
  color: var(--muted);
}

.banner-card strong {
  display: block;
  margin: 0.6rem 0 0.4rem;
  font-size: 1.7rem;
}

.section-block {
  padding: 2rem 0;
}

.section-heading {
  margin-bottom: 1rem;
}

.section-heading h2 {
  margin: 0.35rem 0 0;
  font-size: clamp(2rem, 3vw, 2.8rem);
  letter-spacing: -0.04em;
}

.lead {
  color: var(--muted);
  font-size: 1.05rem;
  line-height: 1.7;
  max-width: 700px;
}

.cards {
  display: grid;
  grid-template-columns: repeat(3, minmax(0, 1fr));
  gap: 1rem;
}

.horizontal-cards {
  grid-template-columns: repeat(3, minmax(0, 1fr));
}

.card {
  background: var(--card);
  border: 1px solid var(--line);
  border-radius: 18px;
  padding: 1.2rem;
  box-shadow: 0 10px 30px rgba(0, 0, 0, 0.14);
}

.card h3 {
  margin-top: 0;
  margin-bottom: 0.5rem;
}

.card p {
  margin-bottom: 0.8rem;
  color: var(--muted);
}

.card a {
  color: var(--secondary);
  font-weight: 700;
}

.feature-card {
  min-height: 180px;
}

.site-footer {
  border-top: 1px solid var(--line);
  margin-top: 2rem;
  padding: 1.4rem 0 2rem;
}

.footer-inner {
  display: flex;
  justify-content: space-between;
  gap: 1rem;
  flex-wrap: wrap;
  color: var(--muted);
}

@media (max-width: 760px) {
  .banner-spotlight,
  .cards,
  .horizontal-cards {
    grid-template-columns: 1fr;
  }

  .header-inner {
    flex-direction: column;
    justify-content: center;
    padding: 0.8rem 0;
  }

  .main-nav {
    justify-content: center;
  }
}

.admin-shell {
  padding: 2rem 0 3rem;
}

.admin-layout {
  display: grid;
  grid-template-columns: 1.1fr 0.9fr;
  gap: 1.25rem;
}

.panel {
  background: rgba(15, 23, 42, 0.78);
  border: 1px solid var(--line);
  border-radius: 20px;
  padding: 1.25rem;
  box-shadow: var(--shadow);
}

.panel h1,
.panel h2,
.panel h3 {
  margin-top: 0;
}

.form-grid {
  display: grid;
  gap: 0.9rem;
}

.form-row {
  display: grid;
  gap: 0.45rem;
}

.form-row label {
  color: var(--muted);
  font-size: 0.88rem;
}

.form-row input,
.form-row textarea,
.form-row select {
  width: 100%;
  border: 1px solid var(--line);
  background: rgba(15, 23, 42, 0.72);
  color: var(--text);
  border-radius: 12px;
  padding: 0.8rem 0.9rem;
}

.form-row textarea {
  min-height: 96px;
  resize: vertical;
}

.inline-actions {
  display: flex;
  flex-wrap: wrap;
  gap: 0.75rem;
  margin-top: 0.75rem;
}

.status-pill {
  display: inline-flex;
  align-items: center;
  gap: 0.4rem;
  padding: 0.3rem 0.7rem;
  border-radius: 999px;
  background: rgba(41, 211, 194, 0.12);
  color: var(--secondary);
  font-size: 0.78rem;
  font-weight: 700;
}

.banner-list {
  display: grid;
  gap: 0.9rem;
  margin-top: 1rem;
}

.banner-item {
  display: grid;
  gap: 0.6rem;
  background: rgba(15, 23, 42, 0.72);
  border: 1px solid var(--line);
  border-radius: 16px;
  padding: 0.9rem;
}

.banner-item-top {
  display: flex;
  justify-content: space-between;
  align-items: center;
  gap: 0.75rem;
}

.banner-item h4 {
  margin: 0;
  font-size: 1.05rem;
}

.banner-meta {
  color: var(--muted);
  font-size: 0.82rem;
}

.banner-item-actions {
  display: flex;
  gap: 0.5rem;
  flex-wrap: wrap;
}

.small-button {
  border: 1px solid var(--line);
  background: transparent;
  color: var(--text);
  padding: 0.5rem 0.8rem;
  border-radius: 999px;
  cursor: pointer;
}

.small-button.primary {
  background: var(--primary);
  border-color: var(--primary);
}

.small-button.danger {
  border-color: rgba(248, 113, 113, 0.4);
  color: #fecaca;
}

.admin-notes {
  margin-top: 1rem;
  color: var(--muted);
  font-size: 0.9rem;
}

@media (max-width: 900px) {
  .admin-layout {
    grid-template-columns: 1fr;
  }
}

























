@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="RodnyPHP — web developer portfolio">
+  <title>RodnyPHP | Portfolio</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">RodnyPHP</a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#links">Links</a>
+        <a href="#projects">Projects</a>
+        <a href="admin/index.html">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="banner-shell">
+    <div class="container banner-spotlight" id="banner-spotlight">
+      <div class="banner-copy">
+        <span class="eyebrow">Featured</span>
+        <h1>Building useful things for the web.</h1>
+        <p>Responsive interfaces, developer tools, and clean digital experiences built to solve problems.</p>
+        <div class="banner-actions">
+          <a href="admin/index.html" class="button primary">Manage banner</a>
+          <a href="admin/index.html" class="button ghost">Open admin</a>
+        </div>
+      </div>
+      <div class="banner-visual" aria-label="Banner preview">
+        <div class="banner-card">
+          <span>Live banner</span>
+          <strong>Portfolio Hub</strong>
+          <small>Custom marketing block / admin editable</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section id="about" class="section-block">
+      <div class="section-heading">
+        <p class="eyebrow">About</p>
+        <h2>Web developer and PHP enthusiast</h2>
+      </div>
+      <p id="bio" class="lead"></p>
+    </section>
+
+    <section id="projects" class="section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Projects</p>
+        <h2>Recent work</h2>
+      </div>
+      <div class="cards horizontal-cards">
+        <article class="card feature-card">
+          <h3>Programmer Calculator</h3>
+          <p>Developer-friendly calculator with binary, hex, and bitwise logic.</p>
+          <a href="calculator.html">View demo</a>
+        </article>
+        <article class="card feature-card">
+          <h3>Admin Dashboard</h3>
+          <p>Editable content panels for banner management and portfolio updates.</p>
+          <a href="admin/index.html">Open admin</a>
+        </article>
+        <article class="card feature-card">
+          <h3>Portfolio Site</h3>
+          <p>Responsive experience built for showcasing work and personal projects.</p>
+          <a href="index.html">Return home</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="links" class="section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Links</p>
+        <h2>Find me online</h2>
+      </div>
+      <div id="link-list" class="cards"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 RodnyB</span>
+      <span>Portfolio banner system</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

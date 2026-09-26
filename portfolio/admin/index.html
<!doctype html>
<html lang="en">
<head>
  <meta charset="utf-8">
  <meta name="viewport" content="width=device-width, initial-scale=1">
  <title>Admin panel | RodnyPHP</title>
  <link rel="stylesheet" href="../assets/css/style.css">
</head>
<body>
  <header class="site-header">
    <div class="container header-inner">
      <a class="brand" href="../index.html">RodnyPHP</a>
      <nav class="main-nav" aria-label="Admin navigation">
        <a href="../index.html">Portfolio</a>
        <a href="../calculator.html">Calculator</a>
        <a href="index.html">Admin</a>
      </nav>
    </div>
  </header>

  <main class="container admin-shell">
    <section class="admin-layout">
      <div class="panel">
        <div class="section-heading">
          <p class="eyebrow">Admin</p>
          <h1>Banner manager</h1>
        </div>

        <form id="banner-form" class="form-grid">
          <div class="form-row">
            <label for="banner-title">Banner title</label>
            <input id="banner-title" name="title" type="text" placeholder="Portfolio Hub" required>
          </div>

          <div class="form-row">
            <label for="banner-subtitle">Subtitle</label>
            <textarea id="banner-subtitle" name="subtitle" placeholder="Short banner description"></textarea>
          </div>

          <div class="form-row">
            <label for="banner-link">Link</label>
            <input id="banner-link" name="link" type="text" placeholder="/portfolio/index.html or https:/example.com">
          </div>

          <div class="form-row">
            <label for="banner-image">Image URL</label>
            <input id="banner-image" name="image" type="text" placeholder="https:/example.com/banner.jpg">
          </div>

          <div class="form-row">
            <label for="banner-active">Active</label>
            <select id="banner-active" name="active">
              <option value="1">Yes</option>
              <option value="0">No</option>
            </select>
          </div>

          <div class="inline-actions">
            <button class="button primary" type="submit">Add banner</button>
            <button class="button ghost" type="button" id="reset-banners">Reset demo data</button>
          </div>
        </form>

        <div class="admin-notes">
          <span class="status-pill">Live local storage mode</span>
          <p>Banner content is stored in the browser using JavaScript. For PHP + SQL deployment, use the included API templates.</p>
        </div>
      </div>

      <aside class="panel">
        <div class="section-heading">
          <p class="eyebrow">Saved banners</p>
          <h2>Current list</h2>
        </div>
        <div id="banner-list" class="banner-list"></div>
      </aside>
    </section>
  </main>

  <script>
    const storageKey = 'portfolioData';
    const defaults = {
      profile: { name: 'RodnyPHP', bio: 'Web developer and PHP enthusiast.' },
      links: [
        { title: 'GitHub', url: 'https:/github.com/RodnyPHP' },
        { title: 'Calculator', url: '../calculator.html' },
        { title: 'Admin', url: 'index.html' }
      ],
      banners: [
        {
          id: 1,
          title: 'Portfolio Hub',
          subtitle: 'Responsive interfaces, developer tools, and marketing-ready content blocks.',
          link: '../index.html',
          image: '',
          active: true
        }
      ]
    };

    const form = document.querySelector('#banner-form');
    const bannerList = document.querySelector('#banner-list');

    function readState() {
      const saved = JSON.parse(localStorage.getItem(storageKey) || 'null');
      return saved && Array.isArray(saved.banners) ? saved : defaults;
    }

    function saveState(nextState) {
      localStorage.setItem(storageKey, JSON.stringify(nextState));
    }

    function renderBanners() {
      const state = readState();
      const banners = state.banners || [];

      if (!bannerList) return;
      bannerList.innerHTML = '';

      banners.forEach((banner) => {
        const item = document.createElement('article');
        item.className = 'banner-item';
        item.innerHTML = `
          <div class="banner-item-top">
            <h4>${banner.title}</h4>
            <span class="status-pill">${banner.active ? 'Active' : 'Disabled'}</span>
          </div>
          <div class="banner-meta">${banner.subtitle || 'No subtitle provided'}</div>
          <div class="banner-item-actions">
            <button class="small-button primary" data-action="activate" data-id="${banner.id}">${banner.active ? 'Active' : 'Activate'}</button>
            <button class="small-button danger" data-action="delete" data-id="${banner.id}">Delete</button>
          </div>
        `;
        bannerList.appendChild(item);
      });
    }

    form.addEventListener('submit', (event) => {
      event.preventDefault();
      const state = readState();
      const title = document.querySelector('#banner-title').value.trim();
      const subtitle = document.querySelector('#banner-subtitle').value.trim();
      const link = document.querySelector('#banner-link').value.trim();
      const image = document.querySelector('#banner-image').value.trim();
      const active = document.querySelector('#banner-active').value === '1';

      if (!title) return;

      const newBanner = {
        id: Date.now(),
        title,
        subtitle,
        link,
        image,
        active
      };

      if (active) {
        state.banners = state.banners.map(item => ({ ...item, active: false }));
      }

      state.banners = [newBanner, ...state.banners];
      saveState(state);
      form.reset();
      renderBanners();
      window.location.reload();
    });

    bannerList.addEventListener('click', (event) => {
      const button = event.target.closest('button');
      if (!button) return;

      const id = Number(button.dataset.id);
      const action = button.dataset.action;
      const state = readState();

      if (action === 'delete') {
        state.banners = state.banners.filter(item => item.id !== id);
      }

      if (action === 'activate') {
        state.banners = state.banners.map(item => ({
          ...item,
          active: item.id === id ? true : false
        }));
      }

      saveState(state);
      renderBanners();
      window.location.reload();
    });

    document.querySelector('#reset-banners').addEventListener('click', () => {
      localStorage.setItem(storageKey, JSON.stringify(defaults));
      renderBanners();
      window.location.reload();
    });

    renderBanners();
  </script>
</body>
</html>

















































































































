@@ -1,0 +1,78 @@
+const defaults = {
+  profile: {
+    name: 'RodnyPHP',
+    bio: 'Web developer and PHP enthusiast.'
+  },
+  links: [
+    { title: 'GitHub', url: 'https://github.com/RodnyPHP' },
+    { title: 'Calculator', url: 'calculator.html' },
+    { title: 'Admin', url: 'admin/index.html' }
+  ],
+  banners: [
+    {
+      id: 1,
+      title: 'Portfolio Hub',
+      subtitle: 'Responsive interfaces, developer tools, and marketing-ready content blocks.',
+      link: 'admin/index.html',
+      image: '',
+      active: true
+    }
+  ]
+};
+
+const storageKey = 'portfolioData';
+const saved = JSON.parse(localStorage.getItem(storageKey) || 'null') || defaults;
+
+const profile = saved.profile || defaults.profile;
+const links = saved.links || defaults.links;
+const banners = saved.banners || defaults.banners;
+
+const bioNode = document.querySelector('#bio');
+if (bioNode) bioNode.textContent = profile.bio;
+
+const list = document.querySelector('#link-list');
+if (list) {
+  links.forEach(link => {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = link.url;
+    card.target = link.url.startsWith('http') ? '_blank' : '_self';
+    card.rel = link.url.startsWith('http') ? 'noopener noreferrer' : '';
+    card.textContent = link.title;
+    list.appendChild(card);
+  });
+}
+
+function renderBanner() {
+  const bannerNode = document.querySelector('#banner-spotlight');
+  if (!bannerNode) return;
+
+  const activeBanner = [...banners].reverse().find(item => item.active) || banners[0] || defaults.banners[0];
+
+  if (!activeBanner) return;
+
+  const copy = bannerNode.querySelector('.banner-copy');
+  const card = bannerNode.querySelector('.banner-card');
+
+  if (copy) {
+    copy.innerHTML = `
+      <span class="eyebrow">Featured</span>
+      <h1>${activeBanner.title || 'Building useful things for the web.'}</h1>
+      <p>${activeBanner.subtitle || 'Responsive interfaces, developer tools, and clean digital experiences.'}</p>
+      <div class="banner-actions">
+        <a href="${activeBanner.link || 'admin/index.html'}" class="button primary">Open banner</a>
+        <a href="admin/index.html" class="button ghost">Manage</a>
+      </div>
+    `;
+  }
+
+  if (card) {
+    card.innerHTML = `
+      <span>Live banner</span>
+      <strong>${activeBanner.title || 'Portfolio Hub'}</strong>
+      <small>${activeBanner.subtitle || 'Custom marketing block / admin editable'}</small>
+    `;
+  }
+}
+
+renderBanner();

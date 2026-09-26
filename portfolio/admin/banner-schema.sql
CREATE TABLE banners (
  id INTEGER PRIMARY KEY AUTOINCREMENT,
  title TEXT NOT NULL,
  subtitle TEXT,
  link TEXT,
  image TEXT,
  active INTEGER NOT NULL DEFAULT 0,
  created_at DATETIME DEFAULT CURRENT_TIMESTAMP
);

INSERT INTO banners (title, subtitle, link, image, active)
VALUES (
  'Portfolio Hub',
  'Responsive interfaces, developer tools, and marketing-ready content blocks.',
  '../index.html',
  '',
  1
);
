@@ -1,0 +1,102 @@
+<?php
+/**
+ * Example PHP + SQLite banner API.
+ * This is a backend template for deployment on PHP hosting / VPS.
+ */
+
+define('DB_PATH', __DIR__ . '/banner.db');
+
+function ensureDatabase(): void {
+    if (!file_exists(DB_PATH)) {
+        $db = new SQLite3(DB_PATH);
+        $db->exec("
+            CREATE TABLE banners (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              title TEXT NOT NULL,
+              subtitle TEXT,
+              link TEXT,
+              image TEXT,
+              active INTEGER NOT NULL DEFAULT 0,
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            );
+        ");
+        $db->exec("
+            INSERT INTO banners (title, subtitle, link, image, active)
+            VALUES ('Portfolio Hub', 'Responsive interfaces, developer tools, and marketing-ready content blocks.', '../index.html', '', 1)
+        ");
+        $db->close();
+    }
+}
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+ensureDatabase();
+
+$db = new SQLite3(DB_PATH);
+
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        $rows = $db->query('SELECT * FROM banners ORDER BY active DESC, id DESC');
+        $result = [];
+        while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
+            $result[] = [
+                'id' => (int) $row['id'],
+                'title' => $row['title'],
+                'subtitle' => $row['subtitle'],
+                'link' => $row['link'],
+                'image' => $row['image'],
+                'active' => (bool) $row['active']
+            ];
+        }
+        echo json_encode($result);
+        break;
+
+    case 'POST':
+        $input = json_decode(file_get_contents('php://input') ?: '{}', true);
+        $title = trim((string) ($input['title'] ?? ''));
+        if ($title === '') {
+            http_response_code(400);
+            echo json_encode(['error' => 'Title is required']);
+            exit;
+        }
+
+        if (!empty($input['active'])) {
+            $db->exec('UPDATE banners SET active = 0');
+        }
+
+        $stmt = $db->prepare('INSERT INTO banners (title, subtitle, link, image, active) VALUES (:title, :subtitle, :link, :image, :active)');
+        $stmt->bindValue(':title', $title, SQLITE3_TEXT);
+        $stmt->bindValue(':subtitle', (string) ($input['subtitle'] ?? ''), SQLITE3_TEXT);
+        $stmt->bindValue(':link', (string) ($input['link'] ?? ''), SQLITE3_TEXT);
+        $stmt->bindValue(':image', (string) ($input['image'] ?? ''), SQLITE3_TEXT);
+        $stmt->bindValue(':active', !empty($input['active']) ? 1 : 0, SQLITE3_INTEGER);
+        $stmt->execute();
+
+        echo json_encode(['message' => 'Banner saved successfully']);
+        break;
+
+    case 'DELETE':
+        $id = (int) ($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid banner id']);
+            exit;
+        }
+        $db->exec('DELETE FROM banners WHERE id = ' . $id);
+        echo json_encode(['message' => 'Banner deleted']);
+        break;
+
+    default:
+        http_response_code(405);
+        echo json_encode(['error' => 'Method not allowed']);
+}
+
+$db->close();
