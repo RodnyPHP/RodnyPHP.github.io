@@ -1,0 +1,3 @@
+<?php
+// PHP API endpoint. Upload this file as admin/banner-api.php.
+require __DIR__ . '/banner-api.php';

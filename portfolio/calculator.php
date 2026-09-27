@@ -1,29 +1,11 @@
 <?php
-// PHP-compatible entry point. Interactive calculations are performed in calculator.js.
-$initial = htmlspecialchars((string)($_GET['value'] ?? ''), ENT_QUOTES, 'UTF-8');
 ?><!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Programmer Calculator | RodnyPHP</title>
-  <link rel="stylesheet" href="assets/css/calculator.css">
-</head>
-<body>
-  <main class="calculator" data-initial="<?= $initial ?>">
-    <header><a href="index.html">← Portfolio</a><h1>Programmer Calculator</h1><p>Binary · octal · decimal · hexadecimal · bitwise operations</p></header>
-    <section class="display-panel"><div id="expression" aria-live="polite"></div><output id="display" aria-label="Calculator result">0</output></section>
-    <section class="base-row" aria-label="Number base"><button data-base="2">BIN</button><button data-base="8">OCT</button><button data-base="10" class="active">DEC</button><button data-base="16">HEX</button><span id="word-size">32-bit unsigned</span></section>
-    <section class="keypad" aria-label="Calculator keypad">
-      <button data-action="clear" class="danger">AC</button><button data-action="backspace">⌫</button><button data-value="&">AND</button><button data-value="|">OR</button><button data-value="^">XOR</button>
-      <button data-value="~">NOT</button><button data-value="<<">SHL</button><button data-value=">>">SHR</button><button data-action="memory-clear">MC</button><button data-action="memory-recall">MR</button>
-      <button data-value="7">7</button><button data-value="8">8</button><button data-value="9">9</button><button data-value="/">÷</button><button data-action="memory-add">M+</button>
-      <button data-value="4">4</button><button data-value="5">5</button><button data-value="6">6</button><button data-value="*">×</button><button data-action="memory-subtract">M−</button>
-      <button data-value="1">1</button><button data-value="2">2</button><button data-value="3">3</button><button data-value="-">−</button><button data-action="equals" class="equals">=</button>
-      <button data-value="0" class="wide">0</button><button data-value=".">.</button><button data-value="+">+</button>
-    </section>
-    <section class="history"><h2>History</h2><ol id="history"></ol></section>
-  </main>
-  <script src="assets/js/calculator.js"></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Programmer Calculator | RodnyPHP</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body><header class="site-header"><div class="container header-inner"><a class="brand" href="index.php">RodnyPHP</a><nav class="main-nav"><a href="index.php">Home</a><a href="calculator.php">Calculator</a><a href="admin/index.php">Admin</a></nav></div></header>
+<main class="container"><section class="section-block"><div class="section-heading"><p class="eyebrow">Tools</p><h1>Programmer Calculator</h1><p>Decimal, binary, hexadecimal, and octal conversion.</p></div><div class="panel calculator-container"><div class="calc-modes"><button class="mode-btn active" data-mode="decimal">Decimal</button><button class="mode-btn" data-mode="binary">Binary</button><button class="mode-btn" data-mode="hex">Hex</button><button class="mode-btn" data-mode="octal">Octal</button></div><div id="display" class="calc-display">0</div><div class="calc-buttons"><button onclick="digit(7)">7</button><button onclick="digit(8)">8</button><button onclick="digit(9)">9</button><button onclick="op('/')">÷</button><button onclick="digit(4)">4</button><button onclick="digit(5)">5</button><button onclick="digit(6)">6</button><button onclick="op('*')">×</button><button onclick="digit(1)">1</button><button onclick="digit(2)">2</button><button onclick="digit(3)">3</button><button onclick="op('-')">−</button><button onclick="digit(0)">0</button><button onclick="op('+')">+</button><button onclick="clearCalc()">C</button><button onclick="equals()">=</button></div></div></section></main>
+<footer class="site-footer"><div class="container">© 2026 RodnyPHP</div></footer>
+<script>
+let value='0', pending=null, left=null, mode='decimal';const display=document.querySelector('#display');
+function show(){display.textContent=value}function digit(n){value=value==='0'?String(n):value+String(n);show()}function op(o){left=parseInt(value,10);pending=o;value='0'}function equals(){if(pending===null)return;const r=parseInt(value,10);if(pending==='+')value=String(left+r);if(pending==='-')value=String(left-r);if(pending==='*')value=String(left*r);if(pending==='/')value=String(r?Math.trunc(left/r):0);pending=null;left=null;show()}function clearCalc(){value='0';pending=null;left=null;show()}
+document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');mode=b.dataset.mode;const n=parseInt(value,0)||0;value=mode==='binary'?n.toString(2):mode==='hex'?'0x'+n.toString(16).toUpperCase():mode==='octal'?'0o'+n.toString(8):String(n);show()});
+</script></body></html>
