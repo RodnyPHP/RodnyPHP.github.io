@@ -1,4 +1,12 @@
-# Keep analytics data private when using Apache.
-<FilesMatch "\.(json|log)$">
-  Require all denied
+<?php
+// .htaccess for security - place in storage/ folder
+// Prevent direct access to JSON files
+?>
+<FilesMatch "\.json$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<FilesMatch "\.db$">
+    Order Allow,Deny
+    Deny from all
 </FilesMatch>
